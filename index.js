@@ -1,49 +1,67 @@
-const array = [5, 1, 4, 2, 6, 3]
-console.log(array)
+const arrayEl = document.getElementById('array')
+const randomArray = (length, max) => [...new Array(length)].map(() => Math.round(Math.random() * max));
 
-const num1 = document.getElementById('num1')
-const num2 = document.getElementById('num2')
+const array = randomArray(100, 100)
 
-const swap = (i, j) => {
-    const temp = array[i]
-    array[i] = array[j]
-    array[j] = temp
+function swap(el1, el2) {
+    return new Promise((resolve) => {
+        // For exchanging styles of two blocks
+        let temp = el1.style.height;
+        el1.style.height = el2.style.height;
+        el2.style.height = temp;
+
+        // For waiting for .25 sec
+        setTimeout(() => {
+            resolve()
+        }, 250);
+    });
 }
-let a = 0;
 
-for (let i = 0; i < array.length - 1; i++) {
-    for (let j = 0; j < array.length - i - 1; j++) {
-        (function (i) {
-            setTimeout(function () {
-                (function (j) {
-                    setTimeout(() => {
-                        // console.log(array)
-                        if (i !== a) {
-                            console.log('od pocetok sega pak')
-                            a = i
-                        }
+const generateBlock = (i) => {
+    arrayEl.innerHTML = ''
 
-                        console.log(array[j], i)
-                        console.log(array[j + 1])
+    for (let i = 0; i < array.length; i++) {
+        const block = document.createElement('div')
+        block.classList.add('block')
 
+        block.style.height = `${array[i] * 5}px`
 
-                        if (array[j] > array[j + 1]) {
-                            console.log(`change prev ${array[j]} with next ${array[j + 1]}`)
-                            swap(j, j + 1)
-                        }
-                    }, j * 2000);
-                })(j)
-            }, 6000 * i);
-        })(i);
+        arrayEl.appendChild(block)
     }
 }
 
-// console.log(array)
+const bubbleSort = async () => {
+    let blocks = document.querySelectorAll('.block')
 
-// for (var i = 0; i < 5; i++) {
-//     (function (i) {
-//         setTimeout(function () {
-//             console.log('value is ', i);
-//         }, 3000 * (i + 1));
-//     })(i);
-// }
+    for (let i = 0; i < array.length; i++) {
+        for (let j = 0; j < array.length - i - 1; j++) {
+            // change background-color of the blocks to be compared
+            blocks[j].style.background = 'blue'
+            blocks[j + 1].style.background = 'blue  '
+
+            // wait 1s before check for swap
+            await new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve()
+                }, 1000)
+            })
+
+            const blockEl1 = Number.parseFloat(blocks[j].style.height)
+            const blockEl2 = Number.parseFloat(blocks[j + 1].style.height)
+
+            if (blockEl1 > blockEl2) {
+                await swap(blocks[j], blocks[j + 1])
+                blocks = document.querySelectorAll(".block");
+            }
+
+            // Changing the color to the previous one
+            blocks[j].style.background = 'gray'
+            blocks[j + 1].style.background = 'gray'
+
+        }
+        blocks[blocks.length - i - 1].style.backgroundColor = "#13CE66";
+    }
+}
+
+generateBlock()
+bubbleSort()

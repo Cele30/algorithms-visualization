@@ -1,0 +1,23 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+#array {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: auto;
+    padding: 20px;
+    background-color: #eee;
+    transition: 1s all ease;
+} 
+
+.block {
+    background-color: gray ;
+    border-radius: 3px;
+    border: 1px solid black;
+    width: 20px;
+    transition: 0.1s all ease;
+} 
