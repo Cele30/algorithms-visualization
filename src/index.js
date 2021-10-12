@@ -1,3 +1,5 @@
+import './index.scss'
+
 const arrayEl = document.getElementById('array')
 const randomArray = (length, max) => [...new Array(length)].map(() => Math.round(Math.random() * max));
 
@@ -43,7 +45,7 @@ const bubbleSort = async () => {
             await new Promise((resolve) => {
                 setTimeout(() => {
                     resolve()
-                }, 1000)
+                }, 500)
             })
 
             const blockEl1 = Number.parseFloat(blocks[j].style.height)
